@@ -25,7 +25,18 @@ class _ExamScreen2State extends State<ExamScreen2> {
               children: [
                 FilledButton(
                   onPressed: () async {
-                    // TODO: Implement get temperature from city
+                    // 2.1 | Asynchrone Funktionen - Funktionsaufrufe
+                    // Erst die Stadt des Benutzers abrufen
+                    String userCity = await _getUserCity();
+
+                    // Dann die Temperatur für diese Stadt abrufen
+                    int currentTemp = await _getCurrentTemp(userCity);
+
+                    // 2.2 | Asynchrone Funktionen - State-Änderung
+                    // Die Variable _temperature auf den return-Wert setzen
+                    setState(() {
+                      _temperature = currentTemp;
+                    });
                   },
                   child: Text('Temperatur abrufen'),
                 ),

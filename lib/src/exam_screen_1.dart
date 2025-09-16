@@ -10,6 +10,7 @@ class ExamScreen1 extends StatefulWidget {
 
 class _ExamScreen1State extends State<ExamScreen1> {
   final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,7 +49,7 @@ class _ExamScreen1State extends State<ExamScreen1> {
                     hintText: 'Alter',
                   ),
                   autovalidateMode: AutovalidateMode.onUserInteraction,
-                  // TODO: validate age
+                  validator: _ageValidator,
                 ),
                 SizedBox(height: 16),
                 FilledButton(
@@ -77,8 +78,35 @@ class _ExamScreen1State extends State<ExamScreen1> {
     );
   }
 
+  // 1.1 | Input Validation - Name
   String? _nameValidator(String? value) {
-    // TODO: Implement name validation
-    return null;
+    if (value == null || value.isEmpty) {
+      return 'Name ist erforderlich';
+    } else if (value.length < 3) {
+      return 'Name muss mindestens 3 Zeichen lang sein';
+    } else {
+      return null;
+    }
+  }
+
+  // 1.2 | Input Validation - Alter
+  String? _ageValidator(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Alter ist erforderlich';
+    }
+
+    // Prüfen ob es eine gültige Zahl ist
+    final int? age = int.tryParse(value);
+    if (age == null) {
+      return 'Alter muss eine gültige Zahl sein';
+    }
+    // Prüfen der Altersgrenze
+    else if (age < 18) {
+      return 'Alter darf nicht jünger als 18 Jahre sein';
+    } else if (age > 99) {
+      return 'Alter darf nicht älter als 99 Jahre sein';
+    } else {
+      return null;
+    }
   }
 }
